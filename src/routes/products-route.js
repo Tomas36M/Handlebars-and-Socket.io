@@ -45,6 +45,10 @@ route.post('/', async (req, res) => {
             return res.status(400).send({ status: 400, message: result.message })
         }
 
+        const products = await manager.getProducts();
+
+        req.app.get("io").stockets.emit("products", products);
+
         res.status(200).send({ status: 200, message: 'Se ha agregado el producto: ' + title });
 
     } catch (err) {
